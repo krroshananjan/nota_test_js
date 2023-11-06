@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+  <div class="button-container">
+    <button class="button" id="button1">1</button>
+    <button class="button" id="button2">2</button>
+    <button class="button" id="button3">3</button>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
+
+css file::
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button {
+  margin: 5px;
+}
+
+js code :
+// Get all buttons and add click event listeners
+const buttons = document.querySelectorAll('.button');
+buttons.forEach(button => {
+  button.addEventListener('click', () => {
+    const currentButton = button;
+    const buttonIndex = Array.from(buttons).indexOf(currentButton);
+    
+    // Swap with upper neighbor if it exists, otherwise, swap with the lower neighbor
+    if (buttonIndex > 0) {
+      // There is an upper neighbor
+      const upperButton = buttons[buttonIndex - 1];
+      swapButtons(currentButton, upperButton);
+    } else if (buttonIndex < buttons.length - 1) {
+      // There is a lower neighbor
+      const lowerButton = buttons[buttonIndex + 1];
+      swapButtons(currentButton, lowerButton);
+    }
+  });
+});
+
+// Function to swap two buttons
+function swapButtons(button1, button2) {
+  const parent = button1.parentElement;
+  const button1Index = Array.from(parent.children).indexOf(button1);
+  const button2Index = Array.from(parent.children).indexOf(button2);
+  
+  // Swap the buttons in the DOM
+  parent.insertBefore(button1, button2);
+  parent.insertBefore(button2, button1);
+}
